@@ -54,4 +54,19 @@ export class BooksService {
       throw error;
     }
   }
+
+  public async likeBook(bookId: Book['id'], userId: string): Promise<Book> {
+    return await this.prismaService.book.update({
+      where: { id: bookId },
+      data: {
+        users: {
+          create: {
+            user: {
+              connect: { id: userId },
+            },
+          },
+        },
+      },
+    });
+  }
 }
